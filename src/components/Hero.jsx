@@ -28,7 +28,7 @@ export default function Hero() {
           <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
             Hi, I'm <span className="text-blue-600 dark:text-blue-400">{name}</span>
           </h1>
-          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 mb-8 max-w-2xl mx-auto whitespace-pre-line">
             {title}
           </p>
 
@@ -56,8 +56,8 @@ export default function Hero() {
               <a
                 key={social.name}
                 href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
+                target={social.url.startsWith("mailto") ? undefined : "_blank"}
+                rel={social.url.startsWith("mailto") ? undefined : "noopener noreferrer"}
                 className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors transform hover:scale-110"
                 aria-label={social.name}
               >
