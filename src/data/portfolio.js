@@ -1,12 +1,34 @@
-import { Github, Linkedin, Mail, MessageCircle, FileText, Code, Database, Server, Layout, Smartphone } from "lucide-react";
+import {
+  Github,
+  Linkedin,
+  Mail,
+  MessageCircle,
+  Code2,
+  Database,
+  Server,
+  Layout,
+  Smartphone,
+  PenTool,
+  BarChart3,
+  Wrench,
+} from "lucide-react";
+
+import thristoAppIcon from "../assets/thristo-app.png";
+import thristoPartnerIcon from "../assets/thristo-partner.png";
 
 export const portfolioData = {
   personalInfo: {
     name: "Narayanan M S",
-    title: "MERN Stack Application & Flutter Developer\nFigma Artist & Power BI",
+    firstName: "Narayanan",
+    initials: "NM",
+    title: "Full Stack & Flutter Developer",
+    tagline:
+      "I build production-ready mobile and web applications — from pixel-perfect Flutter apps live on the App Store to scalable MERN platforms.",
     email: "narayanan.muralidhar2604@gmail.com",
-    phone: "+91 7603824220",
+    phone: "+91 9080423335",
+    phoneDigits: "919080423335",
     location: "Coimbatore, India",
+    availability: "Available for opportunities",
     socials: [
       {
         name: "GitHub",
@@ -15,7 +37,7 @@ export const portfolioData = {
       },
       {
         name: "LinkedIn",
-        url: "https://linkedin.com/in/narayanan-ms",
+        url: "https://www.linkedin.com/in/narayanan-ms/",
         icon: Linkedin,
       },
       {
@@ -25,164 +47,259 @@ export const portfolioData = {
       },
       {
         name: "WhatsApp",
-        url: "https://wa.me/917603824220",
+        url: "https://wa.me/919080423335",
         icon: MessageCircle,
       },
     ],
   },
-  roles: ["MERN Stack Developer", "Flutter Developer", "UI/UX Designer", "Data Analyst"],
+
+  // Shown under the name in the hero, straight from the resume's career objective.
+  specializations: ["MERN Stack", "Flutter", "Next.js", "Machine Learning"],
+
+  stats: [
+    { value: 3, suffix: "", label: "Apps live on app stores" },
+    { value: 9, suffix: "+", label: "Projects shipped" },
+    { value: 2, suffix: "", label: "Oracle certifications" },
+    { value: 2, prefix: "#", suffix: "", label: "KEC Hackathon 2026" },
+  ],
+
   about: {
-    bio: "I am a passionate developer with a strong foundation in both web and mobile application development. Currently pursuing my B.Tech in AIML, I bridge the gap between intelligent algorithms and user-centric interfaces. My experience ranges from building pixel-perfect Flutter apps to robust MERN stack platforms.",
+    bio: "I'm a Full Stack Developer specializing in the MERN stack, Flutter and Next.js, currently pursuing my B.Tech in AI & Machine Learning at Kongu Engineering College. I've shipped cross-platform apps that are live on both the Google Play Store and the Apple App Store, integrated RESTful APIs against production backends, and translated Figma designs into pixel-perfect interfaces.",
+    bioSecondary:
+      "Beyond product work, I'm drawn to Machine Learning, Deep Learning and AI chatbot development — designing intelligent, user-centric solutions for real problems. I care about clean architecture, smooth interactions and interfaces that feel effortless to use.",
+    highlights: [
+      "Shipped a Flutter app to Google Play & the App Store, end to end",
+      "Integrated REST APIs with an Odoo backend using Riverpod",
+      "Built ML Kit-based face validation for a live production app",
+      "~95% accuracy CNN model for handwritten digit recognition",
+    ],
     interests: [
-      "Full Stack Development",
-      "Web Development",
       "Mobile App Development",
+      "Web Development",
       "Machine Learning",
+      "Deep Learning",
+      "AI Chatbots",
       "UI/UX Design",
-      "Power BI"
+      "Data Visualization",
+    ],
+    softSkills: [
+      "Team Collaboration",
+      "Communication",
+      "Problem Solving",
+      "Logical Reasoning",
     ],
   },
+
   experience: [
     {
-      role: "Flutter Developer Intern",
-      company: "Thristo Marketplace",
-      duration: "Nov 2025 – Feb 2026",
+      role: "Flutter Developer",
+      company: "Soulocal Technologies",
+      type: "Freelance",
+      duration: "Jul 2026 – Present",
+      current: true,
       description: [
-        "Built pixel-perfect responsive Flutter UI from Figma designs.",
-        "Implemented modular widget architecture for scalability.",
-        "Ensured smooth Android & iOS interactions and performance.",
-        "Collaborated with backend team to integrate RESTful APIs.",
-        "Integrated virtual try-on feature to enhance User Experience.",
+        "Developed and maintained a live production cross-platform mobile application using Flutter for Android and iOS.",
+        "Built pixel-perfect, responsive UIs from Figma designs and integrated RESTful APIs with the Odoo backend using Riverpod.",
+        "Collaborated with backend, UI/UX and QA teams to deliver scalable features, including ML Kit-based face validation.",
+        "Drove performance improvements across the app for smoother, more reliable interactions.",
       ],
+      tech: ["Flutter", "Riverpod", "Odoo API", "ML Kit"],
+    },
+    {
+      role: "Flutter Developer",
+      company: "Thristo Market Place",
+      type: "Freelance",
+      duration: "Nov 2025 – Jun 2026",
+      apps: [
+        {
+          name: "Thristo",
+          subtitle: "Customer app",
+          icon: thristoAppIcon,
+          url: "https://play.google.com/store/apps/details?id=com.mycompany.thristoApp&hl=en_IN",
+        },
+        {
+          name: "Thristo Partner",
+          subtitle: "Seller app",
+          icon: thristoPartnerIcon,
+          url: "https://play.google.com/store/apps/details?id=com.mycompany.storeappthristo&hl=en_IN",
+        },
+      ],
+      current: false,
+      description: [
+        "Engineered and deployed a cross-platform Flutter application from scratch using Figma designs, delivering pixel-perfect UI across Android and iOS.",
+        "Designed and integrated RESTful APIs for scalable backend communication and real-time data processing.",
+        "Shipped two production apps — the Thristo customer app and the Thristo Partner seller app — to the Google Play Store and Apple App Store.",
+        "Implemented advanced features such as virtual try-on to enhance user engagement.",
+      ],
+      tech: ["Flutter", "Dart", "REST APIs", "Figma"],
     },
   ],
+
   education: [
     {
-      degree: "B.Tech AIML",
+      degree: "B.Tech — Artificial Intelligence & Machine Learning",
       institution: "Kongu Engineering College",
-      score: "CGPA 7.10*",
-      year: "2023 - 2027",
+      location: "Erode, India",
+      score: "CGPA 7.24 (6th semester)",
+      year: "Sep 2023 – Present",
     },
     {
-      degree: "HSC",
-      institution: "Vijayalakshmi Matriculation Higher Secondary School",
+      degree: "HSC — Higher Secondary",
+      institution: "Vijayalakshmi Matric Higher Secondary School",
+      location: "Mettupalayam, India",
       score: "84%",
-      year: "2023",
+      year: "2022 – 2023",
     },
   ],
+
   skills: [
     {
+      category: "Languages",
+      icon: Code2,
+      skills: ["Java", "JavaScript", "TypeScript", "Python", "Dart"],
+    },
+    {
       category: "Frontend",
-      skills: ["React", "Tailwind CSS", "Flutter", "HTML5", "CSS3"],
       icon: Layout,
+      skills: ["React.js", "Next.js", "Tailwind CSS", "HTML5", "CSS3"],
+    },
+    {
+      category: "Mobile",
+      icon: Smartphone,
+      skills: ["Flutter", "Riverpod", "ML Kit", "Play Store", "App Store"],
     },
     {
       category: "Backend",
-      skills: ["Node.js", "Express", "Java", "JavaScript", "TypeScript"],
       icon: Server,
+      skills: ["Node.js", "Express.js", "REST APIs"],
     },
     {
-      category: "Database",
-      skills: ["MongoDB", "Firebase", "SQL"],
+      category: "Databases",
       icon: Database,
+      skills: ["MongoDB", "Firebase", "SQL", "SQLite"],
     },
     {
-      category: "ML / AI",
-      skills: ["Python", "CNN", "Streamlit", "TensorFlow"],
-      icon: Code,
+      category: "ML & AI",
+      icon: BarChart3,
+      skills: ["TensorFlow", "CNN", "Streamlit", "OpenCV"],
     },
     {
-      category: "Tools & Others",
-      skills: ["Git", "GitHub"],
-      icon: Smartphone,
+      category: "Design",
+      icon: PenTool,
+      skills: ["Figma", "Canva", "Illustrator"],
     },
     {
-        category: "UI/UX Design",
-        skills: ["Figma", "Canva" , "Illustrator"],
-        icon: Layout,
+      category: "Tools",
+      icon: Wrench,
+      skills: ["Git", "GitHub", "Power BI", "VS Code"],
     },
-    {
-        category: "Data Analyst",
-        skills: ["Power BI"],
-        icon: Smartphone,
-    }
   ],
+
+  projectFilters: ["All", "Mobile App", "Web App", "ML Project"],
+
   projects: [
     {
+      title: "Tailoring Hub",
+      description:
+        "A MERN platform for machine trading and technician connectivity with secure payments, authentication and real-time data handling for seamless end-to-end workflows.",
+      tech: ["MongoDB", "Express", "React", "Node.js"],
+      type: "Web App",
+      featured: true,
+      link: "#",
+      github: "https://github.com/narayananns/Tailoring-Hub",
+    },
+    {
       title: "Feastopedia",
-      description: "A comprehensive food discovery platform allowing users to find recipes, submit their own, and features an admin approval system.",
+      description:
+        "A food discovery platform where users find and submit recipes, backed by an admin approval workflow and Redux-managed state.",
       tech: ["MERN Stack", "Tailwind CSS", "Redux"],
-      type: "Website Application",
+      type: "Web App",
+      featured: true,
       link: "#",
       github: "https://github.com/narayananns/Feastopedia",
     },
     {
-      title: "FreshMart",
-      description: "Online grocery platform features delivery-slot scheduling and inventory management for a seamless shopping experience.",
-      tech: ["MERN Stack", "Stripe", "Leaflet"],
-      type: "Website Application",
-      link: "#",
-      github: "#",
-    },
-    {
-      title: "Chat Application",
-      description: "Real-time messaging application with authentication, media sharing, and instant notifications.",
-      tech: ["Flutter", "Firebase", "Dart"],
-      type: "Mobile App",
-      link: "#",
-      github: "#",
-    },
-    {
-      title: "Ledger App",
-      description: "Personal finance and expense tracking application with local SQL storage for offline access.",
-      tech: ["Flutter", "SQLite", "Charts"],
-      type: "Mobile App",
-      link: "#",
-      github: "https://github.com/narayananns/Ledger-App-using-Flutter-",
-    },
-    {
       title: "Handwritten Digit Classification",
-      description: "Deep learning model capable of recognizing handwritten digits with high accuracy, visualized via Streamlit.",
+      description:
+        "A CNN model built with Python and Streamlit reaching ~95% accuracy, enabling real-time digit recognition directly from user input in the browser.",
       tech: ["Python", "CNN", "Streamlit"],
       type: "ML Project",
+      featured: true,
       link: "#",
       github: "https://github.com/narayananns/Hand-written-digit-classifier",
     },
     {
-      title: "Lung Cancer Detection",
-      description: "Medical imagery classifier using Convolutional Neural Networks to detect early signs of lung cancer.",
-      tech: ["Python", "TensorFlow", "OpenCV"],
-      type: "ML Project",
+      title: "Ledger App",
+      description:
+        "A Flutter expense tracker with Firebase integration for real-time data storage, giving a clear picture of day-to-day spending.",
+      tech: ["Flutter", "Firebase", "Charts"],
+      type: "Mobile App",
+      featured: true,
       link: "#",
-      github: "#",
+      github: "https://github.com/narayananns/Ledger-App-using-Flutter-",
     },
     {
-      title: "Calculator App",
-      description: "A functional calculator application built with Flutter, featuring a clean UI and standard arithmetic operations.",
+      title: "FreshMart",
+      description:
+        "An online grocery platform with delivery-slot scheduling, inventory management and Stripe checkout for a seamless shopping experience.",
+      tech: ["MERN Stack", "Stripe", "Leaflet"],
+      type: "Web App",
+      link: "#",
+      github: "https://github.com/kirthiadhithya/Freashmart-Online-Grocery-Shopping-",
+    },
+    {
+      title: "Smart Queue Manager",
+      description:
+        "A queue management system that streamlines customer flow and cuts waiting time with live token tracking.",
       tech: ["Flutter", "Dart"],
       type: "Mobile App",
       link: "#",
-      github: "https://github.com/narayananns/calculator-app-using-Flutter",
+      github: "https://github.com/narayananns/Smart-Queue-Manager-",
     },
     {
-      title: "To Do List App",
-      description: "A task management application to help users organize their daily activities efficiently.",
+      title: "To-Do List App",
+      description:
+        "A task manager that keeps daily activities organised with persistent local storage and a clean, focused UI.",
       tech: ["Flutter", "Dart"],
       type: "Mobile App",
       link: "#",
       github: "https://github.com/narayananns/To-Do-List-using-Flutter",
     },
     {
-      title: "Smart Queue Manager",
-      description: "An intelligent queue management system designed to streamline customer flow and reduce wait times.",
+      title: "BMI Calculator",
+      description:
+        "A health-focused Flutter app that calculates Body Mass Index and presents results with clear, readable visual feedback.",
       tech: ["Flutter", "Dart"],
       type: "Mobile App",
       link: "#",
-      github: "https://github.com/narayananns/Smart-Queue-Manager-",
+      github: "https://github.com/narayananns/Bmi_calculator",
+    },
+    {
+      title: "Calculator App",
+      description:
+        "A Flutter calculator with a clean interface and full support for standard arithmetic operations.",
+      tech: ["Flutter", "Dart"],
+      type: "Mobile App",
+      link: "#",
+      github: "https://github.com/narayananns/calculator-app-using-Flutter",
     },
   ],
+
   certifications: [
-    "MongoDB Associate Developer",
-    "Oracle Java SE17 Developer Professional",
+    {
+      name: "Oracle Apex Cloud Developer",
+      issuer: "Oracle",
+    },
+    {
+      name: "Oracle Certified Java SE 17 Developer",
+      issuer: "Oracle",
+    },
+  ],
+
+  achievements: [
+    {
+      title: "2nd Place — KEC Hackathon 2026",
+      detail: "24-hour hackathon, Kongu Engineering College",
+    },
   ],
 };

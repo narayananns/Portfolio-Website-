@@ -1,63 +1,135 @@
 import { motion } from "framer-motion";
+import { Briefcase, Calendar, ExternalLink } from "lucide-react";
 import { portfolioData } from "../data/portfolio";
-import { Briefcase, Calendar } from "lucide-react";
+import SectionHeading from "./SectionHeading";
 
 export default function Experience() {
   const { experience } = portfolioData;
 
   return (
-    <section id="experience" className="section-container">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-      >
-        <h2 className="text-3xl font-bold mb-12 text-center">Work Experience</h2>
+    <section id="experience" className="relative">
+      <div className="section-container">
+        <SectionHeading
+          eyebrow="Career"
+          title="Where I have worked"
+          subtitle="Building and shipping production Flutter applications for real users on Android and iOS."
+        />
 
-        <div className="max-w-3xl mx-auto">
-          {experience.map((job, index) => (
-            <div key={index} className="relative pl-8 md:pl-0">
-              {/* Timeline Line */}
-              <div className="hidden md:block absolute left-1/2 -translate-x-1/2 w-0.5 h-full bg-slate-200 dark:bg-slate-700 top-0" />
-              
-              <div className="md:flex justify-between items-start w-full mb-12 relative">
-                {/* Mobile Line */}
-                <div className="md:hidden absolute left-0 top-0 bottom-0 w-0.5 bg-slate-200 dark:bg-slate-700" />
-                
-                {/* Dot */}
-                <div className="absolute left-[-5px] md:left-1/2 md:-translate-x-1/2 top-0 w-3 h-3 rounded-full bg-blue-600 ring-4 ring-white dark:ring-slate-900" />
+        <div className="relative max-w-3xl mx-auto">
+          {/* Spine */}
+          <div
+            aria-hidden="true"
+            className="absolute left-[15px] top-2 bottom-2 w-px bg-gradient-to-b from-brand-500 via-accent-500/50 to-transparent"
+          />
 
-                {/* Left Side (Date) */}
-                <div className="md:w-1/2 md:pr-12 md:text-right mb-2 md:mb-0">
-                  <div className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium bg-blue-50 dark:bg-blue-900/20 px-3 py-1 rounded-full text-sm">
-                    <Calendar size={14} />
-                    {job.duration}
+          <div className="space-y-8">
+            {experience.map((job, index) => (
+              <motion.article
+                key={job.company}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="relative pl-12"
+              >
+                <span className="absolute left-0 top-6 grid place-items-center h-8 w-8 rounded-full bg-white dark:bg-slate-950 ring-4 ring-white dark:ring-slate-950">
+                  <span
+                    className={`grid place-items-center h-8 w-8 rounded-full text-white ${
+                      job.current
+                        ? "bg-gradient-to-br from-brand-600 to-accent-600"
+                        : "bg-slate-400 dark:bg-slate-700"
+                    }`}
+                  >
+                    <Briefcase size={15} />
+                  </span>
+                </span>
+
+                <div className="surface p-6 sm:p-7 shadow-soft card-hover">
+                  <div className="flex flex-wrap items-center gap-2 mb-3">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-500/10 px-3 py-1 text-xs font-semibold text-brand-700 dark:text-brand-300">
+                      <Calendar size={13} />
+                      {job.duration}
+                    </span>
+                    <span className="chip">{job.type}</span>
+                    {job.current && (
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                        Current
+                      </span>
+                    )}
                   </div>
-                </div>
 
-                {/* Right Side (Content) */}
-                <div className="md:w-1/2 md:pl-12">
-                  <h3 className="text-xl font-bold text-slate-800 dark:text-white">
-                    {job.role}
-                  </h3>
-                  <div className="text-slate-600 dark:text-slate-400 font-medium mb-3 flex items-center gap-1">
-                     <Briefcase size={16} /> @ {job.company}
-                  </div>
-                  <ul className="space-y-2">
-                    {job.description.map((desc, i) => (
-                      <li key={i} className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed flex items-start gap-2">
-                        <span className="mt-1.5 w-1.5 h-1.5 min-w-[6px] min-h-[6px] rounded-full bg-slate-400" />
-                        {desc}
+                  <h3 className="text-xl font-bold">{job.role}</h3>
+                  <p className="text-brand-600 dark:text-brand-400 font-medium mb-4">
+                    {job.company}
+                  </p>
+
+                  <ul className="space-y-2.5">
+                    {job.description.map((line) => (
+                      <li
+                        key={line}
+                        className="flex items-start gap-2.5 text-sm leading-relaxed text-slate-600 dark:text-slate-400"
+                      >
+                        <span className="mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-accent-500" />
+                        {line}
                       </li>
                     ))}
                   </ul>
+
+                  {job.apps && (
+                    <div className="mt-6">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">
+                        Live on Google Play
+                      </p>
+                      <div className="grid sm:grid-cols-2 gap-3">
+                        {job.apps.map((app) => (
+                          <a
+                            key={app.name}
+                            href={app.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group/app flex items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 p-3 transition-all hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-soft"
+                          >
+                            <img
+                              src={app.icon}
+                              alt=""
+                              width={44}
+                              height={44}
+                              loading="lazy"
+                              className="h-11 w-11 shrink-0 rounded-xl object-cover ring-1 ring-slate-200 dark:ring-slate-700"
+                            />
+                            <span className="min-w-0 flex-1">
+                              <span className="block text-sm font-semibold text-slate-800 dark:text-slate-100 truncate">
+                                {app.name}
+                              </span>
+                              <span className="block text-xs text-slate-500">{app.subtitle}</span>
+                            </span>
+                            <ExternalLink
+                              size={15}
+                              className="shrink-0 text-slate-400 group-hover/app:text-brand-500 transition-colors"
+                            />
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {job.tech.map((tech) => (
+                      <span
+                        key={tech}
+                        className="rounded-md bg-slate-100 dark:bg-slate-800 px-2 py-1 font-mono text-[11px] text-slate-600 dark:text-slate-400"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              </motion.article>
+            ))}
+          </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

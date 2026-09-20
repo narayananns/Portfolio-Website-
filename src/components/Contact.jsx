@@ -1,78 +1,300 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
+import { Mail, Phone, MapPin, Send, Copy, Check, Loader2, AlertCircle } from "lucide-react";
 import { portfolioData } from "../data/portfolio";
-import { Mail, Phone, MapPin } from "lucide-react";
+import SectionHeading from "./SectionHeading";
+
+// Long addresses should wrap after the @, never mid-domain.
+function breakableEmail(address) {
+  const [user, domain] = address.split("@");
+  if (!domain) return address;
+  return (
+    <>
+      {user}@<wbr />
+      {domain}
+    </>
+  );
+}
 
 export default function Contact() {
   const { email, phone, location, socials } = portfolioData.personalInfo;
+  const [form, setForm] = useState({ name: "", email: "", message: "", company: "" });
+  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+  const [copied, setCopied] = useState(false);
+
+  const update = (field) => (event) => {
+    setForm((current) => ({ ...current, [field]: event.target.value }));
+    if (status === "error") setStatus("idle");
+  };
+
+  // Opens the visitor's mail client with everything filled in. Only offered as a
+  // fallback when the POST cannot go through (e.g. running outside Netlify).
+  const mailtoFallback = () => {
+    const subject = encodeURIComponent(`Portfolio enquiry from ${form.name}`);
+    const body = encodeURIComponent(
+      [form.message, "", "--", form.name, form.email].join("\n")
+    );
+    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+  };
+
+  // Posted to Netlify Forms, which stores the submission and emails it on.
+  // No API key ships in the bundle and no mail client is opened.
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (status === "sending") return;
+    setStatus("sending");
+
+    try {
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({ "form-name": "contact", ...form }).toString(),
+      });
+      if (!response.ok) throw new Error(`Form POST failed: ${response.status}`);
+      setStatus("sent");
+      setForm({ name: "", email: "", message: "", company: "" });
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard can be blocked; the address is visible on screen either way.
+    }
+  };
+
+  const details = [
+    { icon: Mail, label: "Email", value: email, href: `mailto:${email}`, copyable: true },
+    { icon: Phone, label: "Phone", value: phone, href: `tel:${phone.replace(/\s/g, "")}` },
+    { icon: MapPin, label: "Location", value: location, href: null },
+  ];
 
   return (
-    <section id="contact" className="section-container">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="bg-blue-600 dark:bg-blue-900/50 rounded-2xl p-8 md:p-16 text-center text-white relative overflow-hidden"
-      >
-        <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20" />
-        
-        <div className="relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Let's Work Together</h2>
-          <p className="text-blue-100 mb-12 max-w-2xl mx-auto text-lg">
-            I'm currently looking for new opportunities. Whether you have a question or just want to say hi, my inbox is always open!
-          </p>
+    <section id="contact" className="relative">
+      <div className="section-container">
+        <SectionHeading
+          eyebrow="Contact"
+          title="Let's build something together"
+          subtitle="I'm open to internships, freelance work and full-time roles. Drop a message and I'll get back to you."
+        />
 
-          <div className="flex flex-col md:flex-row justify-center gap-8 mb-12">
-            <a
-              href={`mailto:${email}`}
-              className="flex items-center justify-center gap-3 text-white/90 hover:text-white transition-colors"
-            >
-              <div className="p-3 bg-white/10 rounded-full">
-                <Mail size={24} />
-              </div>
-              <div className="text-left">
-                <p className="text-xs text-blue-200 uppercase tracking-wider">Email Me</p>
-                <p className="font-medium">{email}</p>
-              </div>
-            </a>
-
-            <div className="flex items-center justify-center gap-3 text-white/90">
-               <div className="p-3 bg-white/10 rounded-full">
-                <Phone size={24} />
-              </div>
-              <div className="text-left">
-                <p className="text-xs text-blue-200 uppercase tracking-wider">Call Me</p>
-                <p className="font-medium">{phone}</p>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-center gap-3 text-white/90">
-               <div className="p-3 bg-white/10 rounded-full">
-                <MapPin size={24} />
-              </div>
-              <div className="text-left">
-                <p className="text-xs text-blue-200 uppercase tracking-wider">Location</p>
-                <p className="font-medium">{location}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex justify-center gap-6">
-            {socials.map((social) => (
-              <a
-                key={social.name}
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all hover:scale-110"
-                aria-label={social.name}
+        <div className="grid lg:grid-cols-5 gap-8">
+          {/* Details */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5 }}
+            className="lg:col-span-2 space-y-4"
+          >
+            {details.map((detail) => (
+              <div
+                key={detail.label}
+                className="surface flex items-center gap-3.5 p-5 shadow-soft transition-colors hover:border-brand-300 dark:hover:border-brand-700"
               >
-                <social.icon size={24} className="text-white" />
-              </a>
+                <span className="grid place-items-center h-11 w-11 shrink-0 rounded-xl bg-gradient-to-br from-brand-500/15 to-accent-500/15 text-brand-600 dark:text-brand-400">
+                  <detail.icon size={19} />
+                </span>
+
+                <div className="min-w-0 flex-1">
+                  <span className="block text-xs uppercase tracking-wider text-slate-500">
+                    {detail.label}
+                  </span>
+                  {detail.href ? (
+                    <a
+                      href={detail.href}
+                      className="block text-sm sm:text-[15px] font-medium leading-snug text-slate-800 dark:text-slate-200 break-words hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
+                    >
+                      {detail.copyable ? breakableEmail(detail.value) : detail.value}
+                    </a>
+                  ) : (
+                    <span className="block text-sm sm:text-[15px] font-medium leading-snug text-slate-800 dark:text-slate-200 break-words">
+                      {detail.value}
+                    </span>
+                  )}
+                </div>
+
+                {detail.copyable && (
+                  <button
+                    type="button"
+                    onClick={copyEmail}
+                    title={copied ? "Copied" : "Copy email address"}
+                    aria-label={copied ? "Email address copied" : "Copy email address"}
+                    className="grid place-items-center h-9 w-9 shrink-0 rounded-lg text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  >
+                    {copied ? <Check size={16} className="text-emerald-500" /> : <Copy size={16} />}
+                  </button>
+                )}
+              </div>
             ))}
-          </div>
+
+            <div className="flex gap-3 pt-2">
+              {socials.map((social) => (
+                <a
+                  key={social.name}
+                  href={social.url}
+                  target={social.url.startsWith("mailto") ? undefined : "_blank"}
+                  rel={social.url.startsWith("mailto") ? undefined : "noopener noreferrer"}
+                  aria-label={social.name}
+                  className="grid place-items-center h-11 w-11 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-white hover:border-transparent hover:bg-gradient-to-br hover:from-brand-600 hover:to-accent-600 transition-all duration-300"
+                >
+                  <social.icon size={19} />
+                </a>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Form */}
+          <motion.form
+            name="contact"
+            method="POST"
+            data-netlify="true"
+            netlify-honeypot="company"
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5, delay: 0.12 }}
+            className="lg:col-span-3 surface p-7 sm:p-9 shadow-soft"
+          >
+            <input type="hidden" name="form-name" value="contact" />
+            {/* Honeypot: real people never see this, bots fill it in. */}
+            <p className="hidden">
+              <label>
+                Company
+                <input
+                  name="company"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={form.company}
+                  onChange={update("company")}
+                />
+              </label>
+            </p>
+
+            <div className="grid sm:grid-cols-2 gap-5">
+              <label className="block">
+                <span className="block text-sm font-medium mb-2">Your name</span>
+                <input
+                  type="text"
+                  required
+                  name="name"
+                  autoComplete="name"
+                  value={form.name}
+                  onChange={update("name")}
+                  placeholder="Ananya Krishnan"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-4 py-3 text-sm outline-none transition-colors focus:border-brand-500 dark:text-white"
+                />
+              </label>
+
+              <label className="block">
+                <span className="block text-sm font-medium mb-2">Your email</span>
+                <input
+                  type="email"
+                  required
+                  name="email"
+                  autoComplete="email"
+                  value={form.email}
+                  onChange={update("email")}
+                  placeholder="ananya.krishnan@company.com"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-4 py-3 text-sm outline-none transition-colors focus:border-brand-500 dark:text-white"
+                />
+              </label>
+            </div>
+
+            <label className="block mt-5">
+              <span className="block text-sm font-medium mb-2">Message</span>
+              <textarea
+                required
+                rows={6}
+                name="message"
+                value={form.message}
+                onChange={update("message")}
+                placeholder="Hi Narayanan, we're hiring a Flutter developer at..."
+                className="w-full resize-y rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-4 py-3 text-sm outline-none transition-colors focus:border-brand-500 dark:text-white"
+              />
+            </label>
+
+            <div className="mt-6 flex flex-wrap items-center gap-4">
+              <button
+                type="submit"
+                disabled={status === "sending"}
+                className="btn-primary w-full sm:w-auto disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+              >
+                {status === "sending" ? (
+                  <>
+                    <Loader2 size={17} className="animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send size={17} />
+                    Send message
+                  </>
+                )}
+              </button>
+
+              {status === "sent" && (
+                <motion.p
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  role="status"
+                  className="flex items-center gap-2 text-sm font-medium text-emerald-600 dark:text-emerald-400"
+                >
+                  <Check size={16} />
+                  Thanks — your message is on its way.
+                </motion.p>
+              )}
+            </div>
+
+            {status === "error" && (
+              <motion.div
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                role="alert"
+                className="mt-4 flex items-start gap-3 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4"
+              >
+                <AlertCircle size={18} className="mt-0.5 shrink-0 text-amber-500" />
+                <div className="text-sm">
+                  <p className="font-medium text-slate-800 dark:text-slate-200">
+                    That did not go through.
+                  </p>
+                  <p className="mt-1 text-slate-600 dark:text-slate-400">
+                    Send it by email instead, or write to{" "}
+                    <a
+                      href={`mailto:${email}`}
+                      className="font-medium text-brand-600 dark:text-brand-400 hover:underline underline-offset-4"
+                    >
+                      {email}
+                    </a>
+                    .
+                  </p>
+                  <button
+                    type="button"
+                    onClick={mailtoFallback}
+                    className="mt-3 inline-flex items-center gap-2 rounded-lg border border-slate-300 dark:border-slate-700 px-3 py-1.5 text-xs font-semibold hover:border-brand-500 hover:text-brand-600 dark:hover:text-brand-400 transition-colors"
+                  >
+                    <Mail size={14} />
+                    Open in email app
+                  </button>
+                </div>
+              </motion.div>
+            )}
+
+            {status === "idle" && (
+              <p className="mt-3 text-xs text-slate-500">
+                Sent straight to my inbox — no email app required.
+              </p>
+            )}
+
+          </motion.form>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }
