@@ -100,7 +100,7 @@ export const portfolioData = {
       description: [
         "Developed and maintained a live production cross-platform delivery partner application using Flutter for Android and iOS.",
         "Built pixel-perfect, responsive UIs from Figma designs and integrated RESTful APIs with an Odoo ERP backend using Riverpod state management.",
-        "Implemented advanced device features, including ML Kit-based face validation and Firebase push notifications.",
+        "Implemented advanced device features, including ML Kit-based face validation and Firebase push notifications, while leveraging Claude Pro for optimized debugging and code generation.",
         "Collaborated with backend, UI/UX and QA teams to ship scalable features and performance improvements.",
       ],
       tech: ["Flutter", "Riverpod", "Odoo ERP", "ML Kit", "Firebase"],
@@ -191,7 +191,7 @@ export const portfolioData = {
     {
       category: "Tools",
       icon: Wrench,
-      skills: ["Git", "GitHub", "Power BI", "VS Code"],
+      skills: ["Git", "GitHub", "Power BI", "VS Code", "Claude Pro"],
     },
   ],
 
