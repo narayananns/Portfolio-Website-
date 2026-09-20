@@ -68,8 +68,8 @@ export const portfolioData = {
     bioSecondary:
       "Beyond product work, I'm drawn to Machine Learning, Deep Learning and AI chatbot development — designing intelligent, user-centric solutions for real problems. I care about clean architecture, smooth interactions and interfaces that feel effortless to use.",
     highlights: [
-      "Shipped a Flutter app to Google Play & the App Store, end to end",
-      "Integrated REST APIs with an Odoo backend using Riverpod",
+      "Shipped Flutter apps to Google Play & the App Store, end to end",
+      "Integrated REST APIs with an Odoo ERP backend using Riverpod",
       "Built ML Kit-based face validation for a live production app",
       "~95% accuracy CNN model for handwritten digit recognition",
     ],
@@ -98,12 +98,12 @@ export const portfolioData = {
       duration: "Jul 2026 – Present",
       current: true,
       description: [
-        "Developed and maintained a live production cross-platform mobile application using Flutter for Android and iOS.",
-        "Built pixel-perfect, responsive UIs from Figma designs and integrated RESTful APIs with the Odoo backend using Riverpod.",
-        "Collaborated with backend, UI/UX and QA teams to deliver scalable features, including ML Kit-based face validation.",
-        "Drove performance improvements across the app for smoother, more reliable interactions.",
+        "Developed and maintained a live production cross-platform delivery partner application using Flutter for Android and iOS.",
+        "Built pixel-perfect, responsive UIs from Figma designs and integrated RESTful APIs with an Odoo ERP backend using Riverpod state management.",
+        "Implemented advanced device features, including ML Kit-based face validation and Firebase push notifications.",
+        "Collaborated with backend, UI/UX and QA teams to ship scalable features and performance improvements.",
       ],
-      tech: ["Flutter", "Riverpod", "Odoo API", "ML Kit"],
+      tech: ["Flutter", "Riverpod", "Odoo ERP", "ML Kit", "Firebase"],
     },
     {
       role: "Flutter Developer",
@@ -126,12 +126,12 @@ export const portfolioData = {
       ],
       current: false,
       description: [
-        "Engineered and deployed a cross-platform Flutter application from scratch using Figma designs, delivering pixel-perfect UI across Android and iOS.",
-        "Designed and integrated RESTful APIs for scalable backend communication and real-time data processing.",
-        "Shipped two production apps — the Thristo customer app and the Thristo Partner seller app — to the Google Play Store and Apple App Store.",
-        "Implemented advanced features such as virtual try-on to enhance user engagement.",
+        "Built a live production cross-platform local-store partner application from scratch with Flutter, managing inventory, orders and store operations on Android and iOS.",
+        "Built pixel-perfect, responsive UIs from Figma designs and engineered end-to-end features across both the partner and customer-facing apps.",
+        "Implemented a Fashion AI-powered virtual try-on experience alongside a full-suite integration of RESTful APIs and Firebase services.",
+        "Shipped both apps to the Google Play Store and Apple App Store.",
       ],
-      tech: ["Flutter", "Dart", "REST APIs", "Figma"],
+      tech: ["Flutter", "Dart", "REST APIs", "Firebase", "Figma"],
     },
   ],
 
