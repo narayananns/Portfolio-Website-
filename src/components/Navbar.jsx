@@ -57,7 +57,7 @@ export default function Navbar() {
             <span className="transition-transform group-hover:scale-105">
               <BrandMark size={36} />
             </span>
-            <span className="font-display font-bold text-lg hidden sm:block">
+            <span className="font-display font-bold text-base sm:text-lg leading-none">
               Narayanan
             </span>
           </Link>

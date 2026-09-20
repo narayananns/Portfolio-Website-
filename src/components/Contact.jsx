@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Send, Copy, Check, Loader2, AlertCircle } from "lucide-react";
 import { portfolioData } from "../data/portfolio";
 import SectionHeading from "./SectionHeading";
+import SocialLinks from "./SocialLinks";
 
 // Long addresses should wrap after the @, never mid-domain.
 function breakableEmail(address) {
@@ -17,8 +18,8 @@ function breakableEmail(address) {
 }
 
 export default function Contact() {
-  const { email, phone, location, socials } = portfolioData.personalInfo;
-  const [form, setForm] = useState({ name: "", email: "", message: "", company: "" });
+  const { email, phone, location } = portfolioData.personalInfo;
+  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "", company: "" });
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
   const [copied, setCopied] = useState(false);
 
@@ -30,7 +31,9 @@ export default function Contact() {
   // Opens the visitor's mail client with everything filled in. Only offered as a
   // fallback when the POST cannot go through (e.g. running outside Netlify).
   const mailtoFallback = () => {
-    const subject = encodeURIComponent(`Portfolio enquiry from ${form.name}`);
+    const subject = encodeURIComponent(
+      form.subject || `Portfolio enquiry from ${form.name}`
+    );
     const body = encodeURIComponent(
       [form.message, "", "--", form.name, form.email].join("\n")
     );
@@ -52,7 +55,7 @@ export default function Contact() {
       });
       if (!response.ok) throw new Error(`Form POST failed: ${response.status}`);
       setStatus("sent");
-      setForm({ name: "", email: "", message: "", company: "" });
+      setForm({ name: "", email: "", subject: "", message: "", company: "" });
     } catch {
       setStatus("error");
     }
@@ -90,7 +93,7 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5 }}
-            className="lg:col-span-2 space-y-4"
+            className="min-w-0 lg:col-span-2 space-y-4"
           >
             {details.map((detail) => (
               <div
@@ -133,20 +136,11 @@ export default function Contact() {
               </div>
             ))}
 
-            <div className="flex gap-3 pt-2">
-              {socials.map((social) => (
-                <a
-                  key={social.name}
-                  href={social.url}
-                  target={social.url.startsWith("mailto") ? undefined : "_blank"}
-                  rel={social.url.startsWith("mailto") ? undefined : "noopener noreferrer"}
-                  aria-label={social.name}
-                  className="grid place-items-center h-11 w-11 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-white hover:border-transparent hover:bg-gradient-to-br hover:from-brand-600 hover:to-accent-600 transition-all duration-300"
-                >
-                  <social.icon size={19} />
-                </a>
-              ))}
-            </div>
+            <SocialLinks
+              containerClassName="flex gap-3 pt-2"
+              iconSize={19}
+              className="grid place-items-center h-11 w-11 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-white hover:border-transparent hover:bg-gradient-to-br hover:from-brand-600 hover:to-accent-600 transition-all duration-300"
+            />
           </motion.div>
 
           {/* Form */}
@@ -160,7 +154,7 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5, delay: 0.12 }}
-            className="lg:col-span-3 surface p-7 sm:p-9 shadow-soft"
+            className="min-w-0 lg:col-span-3 surface p-7 sm:p-9 shadow-soft"
           >
             <input type="hidden" name="form-name" value="contact" />
             {/* Honeypot: real people never see this, bots fill it in. */}
@@ -177,7 +171,7 @@ export default function Contact() {
               </label>
             </p>
 
-            <div className="grid sm:grid-cols-2 gap-5">
+            <div className="grid sm:grid-cols-2 gap-5 [&>*]:min-w-0">
               <label className="block">
                 <span className="block text-sm font-medium mb-2">Your name</span>
                 <input
@@ -206,6 +200,19 @@ export default function Contact() {
                 />
               </label>
             </div>
+
+            <label className="block mt-5">
+              <span className="block text-sm font-medium mb-2">Subject</span>
+              <input
+                type="text"
+                required
+                name="subject"
+                value={form.subject}
+                onChange={update("subject")}
+                placeholder="Flutter developer role at Acme"
+                className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 px-4 py-3 text-sm outline-none transition-colors focus:border-brand-500 dark:text-white"
+              />
+            </label>
 
             <label className="block mt-5">
               <span className="block text-sm font-medium mb-2">Message</span>

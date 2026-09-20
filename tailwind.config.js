@@ -51,12 +51,17 @@ export default {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0" },
         },
+        equalise: {
+          "0%, 100%": { height: "30%" },
+          "50%": { height: "100%" },
+        },
       },
       animation: {
         float: "float 6s ease-in-out infinite",
         blob: "blob 18s ease-in-out infinite",
         shimmer: "shimmer 3s linear infinite",
         caret: "caret 1s step-end infinite",
+        equalise: "equalise 0.9s ease-in-out infinite",
       },
     },
   },

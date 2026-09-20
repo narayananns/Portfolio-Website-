@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Github, ExternalLink, Star } from "lucide-react";
 import { portfolioData } from "../data/portfolio";
 import SectionHeading from "./SectionHeading";
+import { useSpotlight } from "../hooks/useSpotlight";
 
 const item = {
   hidden: { opacity: 0, y: 24 },
@@ -15,6 +16,7 @@ const isLive = (url) => Boolean(url) && url !== "#";
 export default function Projects() {
   const { projects, projectFilters } = portfolioData;
   const [filter, setFilter] = useState("All");
+  const spotlight = useSpotlight();
 
   const visible =
     filter === "All" ? projects : projects.filter((p) => p.type === filter);
@@ -65,7 +67,8 @@ export default function Projects() {
                 initial="hidden"
                 animate="show"
                 exit={{ opacity: 0, scale: 0.94, transition: { duration: 0.2 } }}
-                className="group relative surface overflow-hidden shadow-soft card-hover flex flex-col"
+                {...spotlight}
+                className="group spotlight surface overflow-hidden shadow-soft card-hover flex flex-col"
               >
                 <span
                   aria-hidden="true"

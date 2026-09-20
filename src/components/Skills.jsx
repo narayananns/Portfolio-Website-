@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { portfolioData } from "../data/portfolio";
 import SectionHeading from "./SectionHeading";
+import { useSpotlight } from "../hooks/useSpotlight";
 
 const container = {
   hidden: { opacity: 0 },
@@ -14,6 +15,7 @@ const item = {
 
 export default function Skills() {
   const { skills } = portfolioData;
+  const spotlight = useSpotlight();
 
   return (
     <section
@@ -38,7 +40,8 @@ export default function Skills() {
             <motion.div
               key={group.category}
               variants={item}
-              className="group surface p-6 shadow-soft card-hover"
+              {...spotlight}
+              className="group spotlight surface p-6 shadow-soft card-hover"
             >
               <div className="flex items-center gap-3 mb-5">
                 <span className="grid place-items-center h-11 w-11 rounded-xl bg-gradient-to-br from-brand-500/15 to-accent-500/15 text-brand-600 dark:text-brand-400 group-hover:from-brand-600 group-hover:to-accent-600 group-hover:text-white transition-all duration-300">

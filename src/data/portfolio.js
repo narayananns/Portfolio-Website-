@@ -11,6 +11,7 @@ import {
   PenTool,
   BarChart3,
   Wrench,
+  ShoppingBag,
 } from "lucide-react";
 
 import thristoAppIcon from "../assets/thristo-app.png";
@@ -23,7 +24,7 @@ export const portfolioData = {
     initials: "NM",
     title: "Full Stack & Flutter Developer",
     tagline:
-      "I build production-ready mobile and web applications — from pixel-perfect Flutter apps live on the App Store to scalable MERN platforms.",
+      "Full Stack Developer specializing in the MERN stack, Flutter, and Next.js, with hands-on experience building and deploying scalable web and mobile applications. Experienced in developing production-ready Flutter applications, integrating RESTful APIs, creating pixel-perfect user interfaces, and publishing applications on both the Google Play Store and Apple App Store. Passionate about Machine Learning, Deep Learning, AI chatbot development, and e-commerce technologies including WordPress and WooCommerce, with a focus on designing intelligent, user-centric solutions for real-world problems.",
     email: "narayanan.muralidhar2604@gmail.com",
     phone: "+91 9080423335",
     phoneDigits: "919080423335",
@@ -41,8 +42,10 @@ export const portfolioData = {
         icon: Linkedin,
       },
       {
+        // Routed to the on-page form instead of mailto: a submission reaches the
+        // inbox reliably, where a mail client hand-off often does not.
         name: "Email",
-        url: "mailto:narayanan.muralidhar2604@gmail.com",
+        scrollTo: "contact",
         icon: Mail,
       },
       {
@@ -53,11 +56,16 @@ export const portfolioData = {
     ],
   },
 
+  // Narrated when a visitor taps Overview in the hero. Written to be heard, not read:
+  // short sentences, expanded abbreviations, no on-screen-only references.
+  overview:
+    "Hello, and welcome. You are visiting the portfolio of Narayanan M S. Here is a short overview of who he is and what he does. Narayanan is a Full Stack Developer based in Coimbatore, India, currently pursuing a B.Tech in Artificial Intelligence and Machine Learning at Kongu Engineering College. On the web, he builds with the MERN stack, that is MongoDB, Express, React and Node, along with Next.js, TypeScript and Tailwind CSS. On mobile, he builds cross platform applications with Flutter, working across the major state management approaches including Provider, Riverpod, GetX and BLoC, and structuring projects with clean architecture. He uses Firebase for real time data and authentication. Day to day he works with Git, GitHub, Figma, Power BI and Claude. He holds two Oracle certifications, Oracle Apex Cloud Developer and Oracle Certified Java SE 17 Developer. He also placed second in the KEC Hackathon 2026, a twenty four hour college level competition. Professionally, he currently works as a freelance Flutter Developer at Soulocal Technologies, where he builds and maintains a live production delivery partner application for Android and iOS. There he integrates REST APIs with an Odoo ERP backend, and has implemented features such as ML Kit based face validation and Firebase push notifications. Before that, from November 2025 to June 2026, he worked as a freelance Flutter Developer for Thristo Market Place. He built two production applications from scratch there, the Thristo customer app and the Thristo Partner seller app, including a Fashion A I powered virtual try on experience. Both applications are live today on the Google Play Store and the Apple App Store. Beyond that work, he has built many other projects across web, mobile and machine learning. Rather than list them here, scroll down to the Projects section to explore them, or visit his GitHub, where the source code is available. If you would like to get in touch, there are several ways. You can send an email, call the number listed, or use the message form in the Contact section below. Any of them will reach him. Thank you for taking the time to look through this portfolio. I hope you found it useful. Have a great day.",
+
   // Shown under the name in the hero, straight from the resume's career objective.
   specializations: ["MERN Stack", "Flutter", "Next.js", "Machine Learning"],
 
   stats: [
-    { value: 3, suffix: "", label: "Apps live on app stores" },
+    { value: 3, suffix: "", label: "Live production apps" },
     { value: 9, suffix: "+", label: "Projects shipped" },
     { value: 2, suffix: "", label: "Oracle certifications" },
     { value: 2, prefix: "#", suffix: "", label: "KEC Hackathon 2026" },
@@ -70,8 +78,8 @@ export const portfolioData = {
     highlights: [
       "Shipped Flutter apps to Google Play & the App Store, end to end",
       "Integrated REST APIs with an Odoo ERP backend using Riverpod",
-      "Built ML Kit-based face validation for a live production app",
-      "~95% accuracy CNN model for handwritten digit recognition",
+      "Implemented ML Kit-based face validation for a live production app",
+      "Trained a CNN reaching ~95% accuracy on handwritten digit recognition",
     ],
     interests: [
       "Mobile App Development",
@@ -113,15 +121,19 @@ export const portfolioData = {
       apps: [
         {
           name: "Thristo",
+          slug: "thristo",
           subtitle: "Customer app",
           icon: thristoAppIcon,
-          url: "https://play.google.com/store/apps/details?id=com.mycompany.thristoApp&hl=en_IN",
+          play: "https://play.google.com/store/apps/details?id=com.mycompany.thristoApp&hl=en_IN",
+          appStore: "https://apps.apple.com/in/app/thristo/id6742734112",
         },
         {
           name: "Thristo Partner",
+          slug: "partner",
           subtitle: "Seller app",
           icon: thristoPartnerIcon,
-          url: "https://play.google.com/store/apps/details?id=com.mycompany.storeappthristo&hl=en_IN",
+          play: "https://play.google.com/store/apps/details?id=com.mycompany.storeappthristo&hl=en_IN",
+          appStore: "https://apps.apple.com/in/app/thristo-partner/id6742093666",
         },
       ],
       current: false,
@@ -166,7 +178,15 @@ export const portfolioData = {
     {
       category: "Mobile",
       icon: Smartphone,
-      skills: ["Flutter", "Riverpod", "ML Kit", "Play Store", "App Store"],
+      skills: [
+        "Flutter",
+        "Provider",
+        "Riverpod",
+        "GetX",
+        "BLoC",
+        "Clean Architecture",
+        "ML Kit",
+      ],
     },
     {
       category: "Backend",
@@ -182,6 +202,11 @@ export const portfolioData = {
       category: "ML & AI",
       icon: BarChart3,
       skills: ["TensorFlow", "CNN", "Streamlit", "OpenCV"],
+    },
+    {
+      category: "E-commerce",
+      icon: ShoppingBag,
+      skills: ["WordPress", "WooCommerce"],
     },
     {
       category: "Design",

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Award, GraduationCap, Trophy, CheckCircle2, Sparkle } from "lucide-react";
 import { portfolioData } from "../data/portfolio";
 import SectionHeading from "./SectionHeading";
+import ListenButton from "./ListenButton";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -30,10 +31,13 @@ export default function About() {
             transition={{ duration: 0.5 }}
             className="lg:col-span-3 surface p-7 sm:p-9 shadow-soft"
           >
-            <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-              <Sparkle className="text-brand-500" size={20} />
-              Who I am
-            </h3>
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+              <h3 className="text-xl font-bold flex items-center gap-2">
+                <Sparkle className="text-brand-500" size={20} />
+                Who I am
+              </h3>
+              <ListenButton text={`${about.bio} ${about.bioSecondary}`} />
+            </div>
             <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{about.bio}</p>
             <p className="mt-4 text-slate-600 dark:text-slate-400 leading-relaxed">
               {about.bioSecondary}

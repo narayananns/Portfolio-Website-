@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-scroll";
-import { ArrowDown, Download, MapPin, Sparkles } from "lucide-react";
+import { ArrowDown, ChevronDown, Download, MapPin, Sparkles } from "lucide-react";
 import { portfolioData } from "../data/portfolio";
 import ProfileImage from "./ProfileImage";
 import StatCounter from "./StatCounter";
+import SocialLinks from "./SocialLinks";
+import ListenButton from "./ListenButton";
 import resume from "../assets/resume.pdf";
 
 const rise = {
@@ -12,13 +15,17 @@ const rise = {
 };
 
 export default function Hero() {
-  const { name, tagline, location, availability, socials } = portfolioData.personalInfo;
-  const { specializations, stats } = portfolioData;
+  const { name, tagline, location, availability } = portfolioData.personalInfo;
+  const { specializations, stats, overview } = portfolioData;
+
+  // The full career objective is long; on phones it would push the CTAs off
+  // screen, so it is clamped with an opt-in expand. Desktop always shows it all.
+  const [expanded, setExpanded] = useState(false);
 
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center overflow-hidden pt-28 pb-20"
+      className="relative min-h-screen flex items-center overflow-hidden pt-20 sm:pt-28 pb-14 sm:pb-20"
     >
       <div className="absolute inset-0 -z-10" aria-hidden="true">
         <div className="absolute inset-0 grid-backdrop" />
@@ -47,7 +54,7 @@ export default function Hero() {
             <motion.h1
               variants={rise}
               transition={{ duration: 0.5 }}
-              className="mt-7 font-extrabold leading-[1.18] pb-1"
+              className="mt-5 sm:mt-7 font-extrabold leading-[1.18] pb-1"
             >
               <span className="block font-display text-lg sm:text-xl font-semibold text-slate-500 dark:text-slate-400 mb-1.5">
                 Hi, I&apos;m
@@ -57,7 +64,15 @@ export default function Hero() {
               </span>
             </motion.h1>
 
-            <motion.div variants={rise} transition={{ duration: 0.5 }} className="mt-4">
+            <motion.div
+              variants={rise}
+              transition={{ duration: 0.5 }}
+              className="mt-3 sm:mt-4 flex justify-center lg:justify-start"
+            >
+              <ListenButton text={overview} label="Overview" size="md" />
+            </motion.div>
+
+            <motion.div variants={rise} transition={{ duration: 0.5 }} className="mt-3 sm:mt-4">
               <p className="text-xl sm:text-2xl lg:text-3xl font-display font-semibold leading-snug">
                 <span className="font-mono text-slate-400 dark:text-slate-600">&lt;/&gt;</span>{" "}
                 <span className="text-brand-600 dark:text-brand-400">Full Stack Developer</span>
@@ -77,18 +92,35 @@ export default function Hero() {
               </ul>
             </motion.div>
 
-            <motion.p
-              variants={rise}
-              transition={{ duration: 0.5 }}
-              className="mt-6 text-base sm:text-lg leading-relaxed text-slate-600 dark:text-slate-400 max-w-xl mx-auto lg:mx-0"
-            >
-              {tagline}
-            </motion.p>
+            <motion.div variants={rise} transition={{ duration: 0.5 }} className="mt-4 sm:mt-6">
+              <p
+                id="hero-tagline"
+                className={`text-sm sm:text-base leading-relaxed text-slate-600 dark:text-slate-400 max-w-2xl mx-auto lg:mx-0 ${
+                  expanded ? "" : "line-clamp-3 sm:line-clamp-none"
+                }`}
+              >
+                {tagline}
+              </p>
+
+              <button
+                type="button"
+                onClick={() => setExpanded((open) => !open)}
+                aria-expanded={expanded}
+                aria-controls="hero-tagline"
+                className="sm:hidden mt-2 inline-flex items-center gap-1 text-sm font-semibold text-brand-600 dark:text-brand-400"
+              >
+                {expanded ? "Show less" : "Read more"}
+                <ChevronDown
+                  size={15}
+                  className={`transition-transform ${expanded ? "rotate-180" : ""}`}
+                />
+              </button>
+            </motion.div>
 
             <motion.div
               variants={rise}
               transition={{ duration: 0.5 }}
-              className="mt-4 flex items-center justify-center lg:justify-start gap-2 text-sm text-slate-500 dark:text-slate-400"
+              className="mt-3 sm:mt-4 flex items-center justify-center lg:justify-start gap-2 text-sm text-slate-500 dark:text-slate-400"
             >
               <MapPin size={16} className="text-brand-500" />
               {location}
@@ -97,9 +129,9 @@ export default function Hero() {
             <motion.div
               variants={rise}
               transition={{ duration: 0.5 }}
-              className="mt-9 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center"
+              className="mt-7 sm:mt-9 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start items-center"
             >
-              <Link to="projects" smooth duration={600} offset={-70} className="btn-primary w-full sm:w-auto">
+              <Link to="experience" smooth duration={600} offset={-70} className="btn-primary w-full sm:w-auto">
                 <Sparkles size={18} />
                 View My Work
               </Link>
@@ -109,23 +141,11 @@ export default function Hero() {
               </a>
             </motion.div>
 
-            <motion.div
-              variants={rise}
-              transition={{ duration: 0.5 }}
-              className="mt-9 flex justify-center lg:justify-start gap-3"
-            >
-              {socials.map((social) => (
-                <a
-                  key={social.name}
-                  href={social.url}
-                  target={social.url.startsWith("mailto") ? undefined : "_blank"}
-                  rel={social.url.startsWith("mailto") ? undefined : "noopener noreferrer"}
-                  aria-label={social.name}
-                  className="p-3 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-white hover:border-transparent hover:bg-gradient-to-br hover:from-brand-600 hover:to-accent-600 hover:-translate-y-1 transition-all duration-300"
-                >
-                  <social.icon size={20} />
-                </a>
-              ))}
+            <motion.div variants={rise} transition={{ duration: 0.5 }} className="mt-9">
+              <SocialLinks
+                containerClassName="flex justify-center lg:justify-start gap-3"
+                className="p-3 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:text-white hover:border-transparent hover:bg-gradient-to-br hover:from-brand-600 hover:to-accent-600 hover:-translate-y-1 transition-all duration-300"
+              />
             </motion.div>
           </motion.div>
 
@@ -133,7 +153,7 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="order-1 lg:order-2 relative mx-auto w-44 sm:w-64 lg:w-full lg:max-w-sm"
+            className="order-1 lg:order-2 relative mx-auto w-32 sm:w-60 lg:w-full lg:max-w-sm"
           >
             <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-tr from-brand-500/30 to-accent-500/30 blur-2xl" aria-hidden="true" />
             <div className="relative aspect-square rounded-[2rem] p-[3px] bg-gradient-to-tr from-brand-500 via-accent-500 to-brand-400 shadow-lift animate-float">

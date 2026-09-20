@@ -1,0 +1,25 @@
+{
+  "thristo": {
+    "play": {
+      "rating": "4.7",
+      "reviews": "15",
+      "downloads": "1K+"
+    },
+    "ios": {
+      "rating": "4.4",
+      "ratings": "7"
+    }
+  },
+  "partner": {
+    "play": {
+      "rating": "3.4",
+      "reviews": "5",
+      "downloads": "1K+"
+    },
+    "ios": {
+      "rating": "5.0",
+      "ratings": "2"
+    }
+  },
+  "checkedAt": "2026-09-20"
+}

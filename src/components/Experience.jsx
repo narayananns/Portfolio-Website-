@@ -1,7 +1,11 @@
 import { motion } from "framer-motion";
-import { Briefcase, Calendar, ExternalLink } from "lucide-react";
+import { Briefcase, Calendar, Star } from "lucide-react";
 import { portfolioData } from "../data/portfolio";
 import SectionHeading from "./SectionHeading";
+import AppShowcase from "./AppShowcase";
+import appStats from "../data/appStats.json";
+import googlePlayBadge from "../assets/google-play-badge.png";
+import appStoreBadge from "../assets/app-store-badge.svg";
 
 export default function Experience() {
   const { experience } = portfolioData;
@@ -79,38 +83,94 @@ export default function Experience() {
                   {job.apps && (
                     <div className="mt-6">
                       <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">
-                        Live on Google Play
+                        Live on Google Play &amp; the App Store
                       </p>
-                      <div className="grid sm:grid-cols-2 gap-3">
-                        {job.apps.map((app) => (
-                          <a
-                            key={app.name}
-                            href={app.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group/app flex items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 p-3 transition-all hover:border-brand-400 dark:hover:border-brand-600 hover:shadow-soft"
-                          >
-                            <img
-                              src={app.icon}
-                              alt=""
-                              width={44}
-                              height={44}
-                              loading="lazy"
-                              className="h-11 w-11 shrink-0 rounded-xl object-cover ring-1 ring-slate-200 dark:ring-slate-700"
-                            />
-                            <span className="min-w-0 flex-1">
-                              <span className="block text-sm font-semibold text-slate-800 dark:text-slate-100 truncate">
-                                {app.name}
-                              </span>
-                              <span className="block text-xs text-slate-500">{app.subtitle}</span>
-                            </span>
-                            <ExternalLink
-                              size={15}
-                              className="shrink-0 text-slate-400 group-hover/app:text-brand-500 transition-colors"
-                            />
-                          </a>
-                        ))}
+                      <div className="grid sm:grid-cols-2 gap-3 [&>*]:min-w-0">
+                        {job.apps.map((app) => {
+                          const stats = appStats[app.slug] ?? {};
+                          const listings = [
+                            {
+                              store: "Google Play",
+                              href: app.play,
+                              badge: googlePlayBadge,
+                              badgeAlt: "Get it on Google Play",
+                              rating: stats.play?.rating,
+                              detail: stats.play && `${stats.play.downloads} downloads`,
+                            },
+                            {
+                              store: "App Store",
+                              href: app.appStore,
+                              badge: appStoreBadge,
+                              badgeAlt: "Download on the App Store",
+                              rating: stats.ios?.rating,
+                              detail: stats.ios && `${stats.ios.ratings} ratings`,
+                            },
+                          ].filter((listing) => listing.href);
+
+                          return (
+                            <div
+                              key={app.name}
+                              className="flex min-w-0 flex-col rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 p-4"
+                            >
+                              <div className="flex items-center gap-3">
+                                <img
+                                  src={app.icon}
+                                  alt=""
+                                  width={44}
+                                  height={44}
+                                  loading="lazy"
+                                  className="h-11 w-11 shrink-0 rounded-xl object-cover ring-1 ring-slate-200 dark:ring-slate-700"
+                                />
+                                <div className="min-w-0 flex-1">
+                                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-100 truncate">
+                                    {app.name}
+                                  </p>
+                                  <p className="text-xs text-slate-500">{app.subtitle}</p>
+                                </div>
+                              </div>
+
+                              <dl className="mt-4 space-y-1.5 text-xs">
+                                {listings.map((listing) => (
+                                  <div key={listing.store} className="flex items-center gap-2">
+                                    <dt className="w-[4.75rem] shrink-0 text-slate-500">{listing.store}</dt>
+                                    <dd className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+                                      {listing.rating && (
+                                        <span className="inline-flex items-center gap-1 font-semibold text-slate-800 dark:text-slate-200">
+                                          <Star size={12} className="text-amber-500" fill="currentColor" />
+                                          {listing.rating}
+                                        </span>
+                                      )}
+                                      {listing.detail && <span>{listing.detail}</span>}
+                                    </dd>
+                                  </div>
+                                ))}
+                              </dl>
+
+                              <div className="mt-4 flex flex-wrap items-center gap-2.5">
+                                {listings.map((listing) => (
+                                  <a
+                                    key={listing.store}
+                                    href={listing.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label={`${app.name} on the ${listing.store}`}
+                                    className="inline-block transition-transform hover:scale-[1.04] focus-visible:scale-[1.04]"
+                                  >
+                                    <img
+                                      src={listing.badge}
+                                      alt={listing.badgeAlt}
+                                      loading="lazy"
+                                      className="h-10 w-auto"
+                                    />
+                                  </a>
+                                ))}
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
+
+                      <AppShowcase apps={job.apps} />
                     </div>
                   )}
 
